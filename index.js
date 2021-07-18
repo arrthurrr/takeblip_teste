@@ -14,7 +14,7 @@ app.post('/api/gitrepo/', async function (req, res) {
     async function busca_repositorio(git_lang, git_quant, git_org, git_type, git_sort, git_direction) {
         const octokit = new Octokit({auth: token});
         var quantidade_encontrada = 0;
-        var paginacao = 0;
+        var paginacao = 1;
         var repositorios = [];
 
         while (quantidade_encontrada < git_quant){
@@ -24,15 +24,19 @@ app.post('/api/gitrepo/', async function (req, res) {
                 sort: git_sort,
                 direction: git_direction,
                 per_page: 1,
-                page: paginacao + 1,
+                page: paginacao,
             });
 
             let repo_atual = response['data'][0]
+
             if (repo_atual['language'] === "C#"){
                 console.log("Achou")
                 repositorios.push(repo_atual)
                 quantidade_encontrada += 1
+                console.log(repo_atual['id'])
             }
+
+            paginacao = paginacao + 1
         }
 
         return repositorios;
@@ -44,7 +48,7 @@ app.post('/api/gitrepo/', async function (req, res) {
     let git_sort = req.body.sort;
     let git_direction = req.body.direction;
     let git_quant = req.body.quant;
-    let git_lang = req.body.linguagem;
+    let git_lang = req.body.lang;
 
     console.log("json req:", git_org, git_sort, git_type, git_direction, git_quant);
 
