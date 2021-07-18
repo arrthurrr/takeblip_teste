@@ -1,0 +1,26 @@
+{
+  "name": "takeblip_teste",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Arthur B",
+  "license": "ISC",
+  "homepage": "https://github.com/arrthurrr/takeblip_teste#readme",
+  "dependencies": {
+    "@octokit/core": "^3.5.1",
+    "body-parser": "latest",
+    "express": "latest",
+    "https": "latest",
+    "request": "latest",
+    "supertest": "latest",
+    "tape": "latest",
+    "useragent": "latest"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}
