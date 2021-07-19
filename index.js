@@ -31,24 +31,28 @@ app.post('/api/gitrepo/', async function (req, res) {
             paginacao += 1
 
             if (repo_atual['language'] === "C#"){
+                let repo = {
+                    "titulo": repo_atual['name'],
+                    "descricao": repo_atual['description'],
+                    "imagem": (repo_atual['owner'])['avatar_url'],
+                    "id": repo_atual['id'],
+                    "url": repo_atual['html_url']
+                }
                 qtde_encontrada += 1
-                repositorios.push(repo_atual)
+                repositorios.push(repo)
             }
         }
 
         return repositorios;
     }
-    console.log(req.body);
 
-    let git_org = req.body.org;
-    let git_type = req.body.type;
-    let git_sort = req.body.sort;
+    let git_org       = req.body.org;
+    let git_type      = req.body.type;
+    let git_sort      = req.body.sort;
     let git_direction = req.body.direction;
-    let git_quant = req.body.quant;
-    let git_lang = req.body.lang;
-    let git_token = req.body.token;
-
-    console.log("json req:", git_org, git_sort, git_type, git_direction, git_quant, git_token);
+    let git_quant     = req.body.quant;
+    let git_lang      = req.body.lang;
+    let git_token     = req.body.token;
 
     let res_repositorios = await busca_repositorio(git_lang, git_quant, git_org, git_type, git_sort, git_direction, git_token);
 
