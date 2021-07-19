@@ -6,16 +6,16 @@ const { Octokit } = require("@octokit/core");
 app.use(express.json());
 
 app.get('/', function (req, res){
-    res.redirect("https://github.com/arrthurrr/takeblip_teste#readme");
+    res.redirect("https://github.com/arrthurrr/takeblip_teste#readme")
 });
 
 app.post('/api/gitrepo/', async function (req, res) {
     async function busca_repositorio(git_lang, git_quant, git_org, git_type, git_sort, git_direction, git_token) {
-        const octokit = new Octokit({auth: git_token});
+        const octokit = new Octokit({auth: git_token})
 
-        let qtde_encontrada = 0;
-        let paginacao = 1;
-        let repositorios = [];
+        let qtde_encontrada = 0
+        let paginacao       = 1
+        let repositorios    = []
 
         while (qtde_encontrada < git_quant){
             const response = await octokit.request("GET /orgs/{org}/repos", {
@@ -36,28 +36,29 @@ app.post('/api/gitrepo/', async function (req, res) {
                     "descricao": repo_atual['description'],
                     "imagem": (repo_atual['owner'])['avatar_url'],
                     "id": repo_atual['id'],
-                    "url": repo_atual['html_url']
+                    "url": repo_atual['html_url'],
+                    "creation": repo_atual['created_at']
                 }
                 qtde_encontrada += 1
                 repositorios.push(repo)
             }
         }
 
-        return repositorios;
+        return repositorios
     }
 
-    let git_org       = req.body.org;
-    let git_type      = req.body.type;
-    let git_sort      = req.body.sort;
-    let git_direction = req.body.direction;
-    let git_quant     = req.body.quant;
-    let git_lang      = req.body.lang;
-    let git_token     = req.body.token;
+    let git_org       = req.body.org
+    let git_type      = req.body.type
+    let git_sort      = req.body.sort
+    let git_direction = req.body.direction
+    let git_quant     = req.body.quant
+    let git_lang      = req.body.lang
+    let git_token     = req.body.token
 
-    let res_repositorios = await busca_repositorio(git_lang, git_quant, git_org, git_type, git_sort, git_direction, git_token);
+    let res_repositorios = await busca_repositorio(git_lang, git_quant, git_org, git_type, git_sort, git_direction, git_token)
 
-    res.json(res_repositorios);
-    res.end();
+    res.json(res_repositorios)
+    res.end()
 });
 
 app.listen(port, function() {
