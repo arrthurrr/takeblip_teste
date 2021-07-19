@@ -1,8 +1,7 @@
 const express = require('express');
 const app = express();
-const port = 8080 || 8085;
+const port = process.env.PORT || 8080;
 const { Octokit } = require("@octokit/core");
-const token = "";
 
 app.use(express.json());
 
@@ -11,8 +10,9 @@ app.get('/', function (req, res){
 });
 
 app.post('/api/gitrepo/', async function (req, res) {
-    async function busca_repositorio(git_lang, git_quant, git_org, git_type, git_sort, git_direction) {
-        const octokit = new Octokit({auth: token});
+    async function busca_repositorio(git_lang, git_quant, git_org, git_type, git_sort, git_direction, git_token) {
+        const octokit = new Octokit({auth: git_token});
+
         var quantidade_encontrada = 0;
         var paginacao = 1;
         var repositorios = [];
@@ -28,15 +28,12 @@ app.post('/api/gitrepo/', async function (req, res) {
             });
 
             let repo_atual = response['data'][0]
+            paginacao += 1
 
             if (repo_atual['language'] === "C#"){
-                console.log("Achou")
                 repositorios.push(repo_atual)
                 quantidade_encontrada += 1
-                console.log(repo_atual['id'])
             }
-
-            paginacao = paginacao + 1
         }
 
         return repositorios;
@@ -49,10 +46,11 @@ app.post('/api/gitrepo/', async function (req, res) {
     let git_direction = req.body.direction;
     let git_quant = req.body.quant;
     let git_lang = req.body.lang;
+    let git_token = req.body.token;
 
-    console.log("json req:", git_org, git_sort, git_type, git_direction, git_quant);
+    console.log("json req:", git_org, git_sort, git_type, git_direction, git_quant, git_token);
 
-    let res_repositorios = await busca_repositorio(git_lang, git_quant, git_org, git_type, git_sort, git_direction);
+    let res_repositorios = await busca_repositorio(git_lang, git_quant, git_org, git_type, git_sort, git_direction, git_token);
 
     res.json(res_repositorios);
     res.end();
