@@ -13,11 +13,11 @@ app.post('/api/gitrepo/', async function (req, res) {
     async function busca_repositorio(git_lang, git_quant, git_org, git_type, git_sort, git_direction, git_token) {
         const octokit = new Octokit({auth: git_token});
 
-        var quantidade_encontrada = 0;
-        var paginacao = 1;
-        var repositorios = [];
+        let qtde_encontrada = 0;
+        let paginacao = 1;
+        let repositorios = [];
 
-        while (quantidade_encontrada < git_quant){
+        while (qtde_encontrada < git_quant){
             const response = await octokit.request("GET /orgs/{org}/repos", {
                 org: git_org,
                 type: git_type,
@@ -31,8 +31,8 @@ app.post('/api/gitrepo/', async function (req, res) {
             paginacao += 1
 
             if (repo_atual['language'] === "C#"){
+                qtde_encontrada += 1
                 repositorios.push(repo_atual)
-                quantidade_encontrada += 1
             }
         }
 
@@ -55,7 +55,6 @@ app.post('/api/gitrepo/', async function (req, res) {
     res.json(res_repositorios);
     res.end();
 });
-
 
 app.listen(port, function() {
     console.log('Servidor rodando na porta', port)
