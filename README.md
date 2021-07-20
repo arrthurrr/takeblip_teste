@@ -2,6 +2,10 @@
 
 Teste do processo seletivo da Take Blip, realizado em NodeJS.
 
+## URL live para teste da API:
+
+https://takeblipteste.arrthurrr.repl.co
+
 ## Instalação
 
 Utilize o NodeJS na versão >= 16.4 e rode o comando abaixo no terminal através da pasta principal do projeto.
@@ -47,7 +51,7 @@ O retorno será uma lista com um ou mais JSON no modelo abaixo com o ID do repos
 }
 ```
 
-## Exemplo de uso pelo terminal:
+## Exemplo de uso pelo terminal localmente:
 ```bash
 # Inserir GitHub API Token ao fim da linha
 curl http://localhost:8080/api/gitrepo -H "Content-Type: application/json" -d '{"org":"takenet", "type":"public", "sort":"created", "direction":"asc", "quant":"1", "lang":"C#", "token":"INSERIR_TOKEN"}'
